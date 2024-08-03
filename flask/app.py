@@ -1,38 +1,58 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect, url_for, flash, session
 from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 from flask_cors import CORS
+import sqlite3
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = 'your-secret-key'  # Change this to a secure key
 jwt = JWTManager(app)
 CORS(app)
 
-users = {
-    "testuser": {
-        "password": "testpassword",
-        "profile": {
-            "name": "Test User",
-            "email": "testuser@example.com"
-        }
-    }
-}
+def get_db_connection():
+    conn = sqlite3.connect('DataB.db', timeout=15, check_same_thread=False)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 @app.route('/')
 def index():
     return render_template('home.html', title='Home')  # Ensure home.html exists in templates folder
 
-@app.route('/login', methods=['POST'])
+@app.route('/signup', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
+                       (username, email, password))
+        conn.commit()
+        conn.close()
+
+        return redirect(url_for('login'))
+    return render_template('login.html')
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    username = request.json.get('username', None)
-    password = request.json.get('password', None)
-    user = users.get(username)
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
 
-    if not user or user['password'] != password:
-        return jsonify({"msg": "Bad username or password"}), 401
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+        user = cursor.fetchone()
+        conn.close()
 
-    access_token = create_access_token(identity=username)
-    refresh_token = create_refresh_token(identity=username)
-    return jsonify(access_token=access_token, refresh_token=refresh_token)
+        if user and user['password'] == password:
+            return render_template("home.html")
+        else:
+            return "Invalid credentials!"
+
+    return render_template('login.html')
 
 @app.route('/profile', methods=['GET'])
 @jwt_required()

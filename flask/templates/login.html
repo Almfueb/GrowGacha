@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% include 'navbar.html' %}
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/login" method="post">
+                        <div class="form-group">
+                            <label for="usernameModal">Username</label>
+                            <input type="text" class="form-control" id="usernameModal" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="passwordModal">Password</label>
+                            <input type="password" class="form-control" id="passwordModal" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signupModalLabel">Sign Up</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/signup" method="post">
+                        <div class="form-group">
+                            <label for="signupUsernameModal">Username</label>
+                            <input type="text" class="form-control" id="signupUsernameModal" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupEmailModal">Email</label>
+                            <input type="email" class="form-control" id="signupEmailModal" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPasswordModal">Password</label>
+                            <input type="password" class="form-control" id="signupPasswordModal" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
