@@ -1,22 +1,40 @@
-from flask import Flask, request, jsonify, render_template, redirect, url_for, flash, session
-from flask_jwt_extended import JWTManager, create_access_token, create_refresh_token, jwt_required, get_jwt_identity
+from flask import Flask, request, jsonify, render_template, redirect, url_for, session, send_from_directory
+from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
-import sqlite3
-from werkzeug.security import generate_password_hash, check_password_hash
+import os
 
 app = Flask(__name__)
-app.config['JWT_SECRET_KEY'] = 'your-secret-key'  # Change this to a secure key
-jwt = JWTManager(app)
+app.config['SECRET_KEY'] = 'your-secret-key'  # For session management
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///DataB.db'  # Path to your database
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['UPLOAD_FOLDER'] = 'uploads'  # Folder to store uploaded files
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # Limit upload size to 16 MB
+db = SQLAlchemy(app)
 CORS(app)
 
-def get_db_connection():
-    conn = sqlite3.connect('DataB.db', timeout=15, check_same_thread=False)
-    conn.row_factory = sqlite3.Row
-    return conn
+# Define the User model
+class User(db.Model):
+    __tablename__ = 'users'  # Explicitly name the table
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(50), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(128), nullable=False)
+    balance = db.Column(db.Float, default=0.0)
+    profile_picture = db.Column(db.String(120), default='default.jpg')
+
+    def __repr__(self):
+        return f'<User {self.username}>'
+
+
+# Ensure upload folder exists
+if not os.path.exists(app.config['UPLOAD_FOLDER']):
+    os.makedirs(app.config['UPLOAD_FOLDER'])
 
 @app.route('/')
-def index():
-    return render_template('home.html', title='Home')  # Ensure home.html exists in templates folder
+def home():
+    if 'user_id' in session:
+        return redirect(url_for('profile'))
+    return redirect(url_for('login'))
 
 @app.route('/signup', methods=['GET', 'POST'])
 def register():
@@ -25,15 +43,12 @@ def register():
         email = request.form['email']
         password = request.form['password']
 
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("INSERT INTO users (username, email, password) VALUES (?, ?, ?)",
-                       (username, email, password))
-        conn.commit()
-        conn.close()
+        new_user = User(username=username, email=email, password=password)
+        db.session.add(new_user)
+        db.session.commit()
 
         return redirect(url_for('login'))
-    return render_template('login.html')
+    return render_template('signup.html')
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -41,37 +56,51 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        conn = get_db_connection()
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
-        user = cursor.fetchone()
-        conn.close()
+        user = User.query.filter_by(username=username).first()
 
-        if user and user['password'] == password:
-            return render_template("home.html")
+        if user and user.password == password:
+            session['user_id'] = user.id
+            return redirect(url_for('profile'))
         else:
-            return "Invalid credentials!"
+            return "Invalid credentials!", 401
 
     return render_template('login.html')
 
-@app.route('/profile', methods=['GET'])
-@jwt_required()
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
-    current_user = get_jwt_identity()
-    user_profile = users[current_user]['profile']
-    return jsonify(user_profile=user_profile)
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+    
+    user_id = session['user_id']
+    user = User.query.get(user_id)
+    
+    if user:
+        if request.method == 'POST':
+            file = request.files.get('profile_picture')
+            if file:
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                user.profile_picture = filename
+                db.session.commit()
+                return redirect(url_for('profile'))
 
-@app.route('/refresh', methods=['POST'])
-@jwt_required(refresh=True)
-def refresh():
-    current_user = get_jwt_identity()
-    new_access_token = create_access_token(identity=current_user)
-    return jsonify(access_token=new_access_token)
+        return render_template('home.html', user=user.username, balance=user.balance, profile_picture=user.profile_picture)
+    else:
+        return "User not found", 404
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    return redirect(url_for('login'))
 
 @app.route('/about')
 def about():
     title = 'About us'
     return render_template("about.html", title=title)
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 if __name__ == '__main__':
     app.run(debug=True)
