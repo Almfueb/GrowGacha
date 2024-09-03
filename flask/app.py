@@ -255,6 +255,37 @@ def buyAncient():
     else:
         return jsonify({'success': False, 'message': 'No account available.'})
 
+@app.route('/editprofile', methods=['GET', 'POST'])
+def edit_profile():
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    user_id = session['user_id']
+    user = User.query.get(user_id)
+    
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        if user and user.password == password:
+            user.email = request.form['email']
+            
+            if 'profile_pic' in request.files:
+                profile_pic = request.files['profile_pic']
+                if profile_pic and profile_pic.filename != '':
+                    filename = secure_filename(profile_pic.filename)
+                    profile_pic.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    user.profile_picture = filename
+
+            db.session.commit()
+            flash('Your profile has been successfully updated!', 'success')
+            return redirect(url_for('accounts'))
+        else:
+            flash('Username or password is incorrect. Please try again.', 'danger')
+            return redirect(url_for('edit_profile'))
+
+    return render_template('edit_profile.html', user=user)
+
 @app.route('/logout')
 def logout():
     session.clear()
@@ -264,6 +295,11 @@ def logout():
 def show():
     purchased_account = session.get('purchased_account')
     return render_template('show.html', account=purchased_account)
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
 
 if __name__ == '__main__':
     with app.app_context():
