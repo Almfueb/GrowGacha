@@ -1,0 +1,265 @@
+{% extends 'includes/base.html' %}
+{% block content %}
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/login" method="post">
+                        <div class="form-group">
+                            <label for="usernameModal">Username</label>
+                            <input type="text" class="form-control" id="usernameModal" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="passwordModal">Password</label>
+                            <input type="password" class="form-control" id="passwordModal" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign Up Modal -->
+    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="signupModalLabel">Sign Up</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/signup" method="post">
+                        <div class="form-group">
+                            <label for="signupUsernameModal">Username</label>
+                            <input type="text" class="form-control" id="signupUsernameModal" name="username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupEmailModal">Email</label>
+                            <input type="email" class="form-control" id="signupEmailModal" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupPasswordModal">Password</label>
+                            <input type="password" class="form-control" id="signupPasswordModal" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Buy Now Modal -->
+    <div class="modal fade" id="buyNowModal" tabindex="-1" role="dialog" aria-labelledby="buyNowModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buyNowModalLabel">Buy Now</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="buyForm" action="/buyMDMA" method="post">
+                        <div class="form-group">
+                            <label for="quantity">Quantity : 1</label>
+                        </div>
+                        
+                        <!-- Hidden input to store user's balance -->
+                        <input type="hidden" id="userBalance" name="userBalance" value="{{ balance }}">
+                        
+                        <!-- Purchase button -->
+                        <button type="submit" id="purchaseButton" class="btn btn-primary">Complete Purchase</button>
+                        
+                        <!-- Insufficient balance warning -->
+                        <div id="insufficientBalance" class="text-danger mt-2" style="display:none;">
+                            Insufficient balance to complete this purchase.
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+    <!-- Buy Now Modal -->
+    <div class="modal fade" id="buyNowModal1" tabindex="-1" role="dialog" aria-labelledby="buyNowModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buyNowModalLabel">Buy Now</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="buyForm" action="/buyElite" method="post">
+                        <div class="form-group">
+                            <label for="quantity">Quantity : 1</label>
+                        </div>
+                        
+                        <!-- Hidden input to store user's balance -->
+                        <input type="hidden" id="userBalance" name="userBalance" value="{{ balance }}">
+                        
+                        <!-- Purchase button -->
+                        <button type="submit" id="purchaseButton" class="btn btn-primary">Complete Purchase</button>
+                        
+                        <!-- Insufficient balance warning -->
+                        <div id="insufficientBalance" class="text-danger mt-2" style="display:none;">
+                            Insufficient balance to complete this purchase.
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+
+    <!-- Buy Now Modal -->
+    <div class="modal fade" id="buyNowModal2" tabindex="-1" role="dialog" aria-labelledby="buyNowModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buyNowModalLabel">Buy Now</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="buyForm" action="/buyAncient" method="post">
+                        <div class="form-group">
+                            <label for="quantity">Quantity : 1</label>
+                        </div>
+                        
+                        <!-- Hidden input to store user's balance -->
+                        <input type="hidden" id="userBalance" name="userBalance" value="{{ balance }}">
+                        
+                        <!-- Purchase button -->
+                        <button type="submit" id="purchaseButton" class="btn btn-primary">Complete Purchase</button>
+                        
+                        <!-- Insufficient balance warning -->
+                        <div id="insufficientBalance" class="text-danger mt-2" style="display:none;">
+                            Insufficient balance to complete this purchase.
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+       
+
+
+    <!-- contact infomation modal-->
+    <div id="infoContact" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
+        <div class="modal-content" style="background-color: rgba(51, 51, 51, 0.7); margin: 15% auto; padding: 20px; border-radius: 5px; width: 80%; max-width: 500px;">
+            <span class="close" style="float: right; font-size: 24px; cursor: pointer; margin-bottom: 15px;">&times;</span>
+            <h2 style="margin-bottom: 20px;">Contact Information</h2>
+            <p style="display: flex; align-items: center; margin-bottom: 15px;">
+                <a href="https://www.instagram.com/Almfueb" target="_blank" style="text-decoration: none; display: flex; align-items: center; color: #e4405f;">
+                    <i class='bx bxl-instagram' style="font-size: 24px; margin-right: 10px;"></i>
+                    <span>Almfueb</span>
+                </a>
+            </p>
+            <p style="display: flex; align-items: center;">
+                <a href="https://wa.me/0895703842132" target="_blank" style="text-decoration: none; display: flex; align-items: center; color: #25D366;">
+                    <i class='bx bxl-whatsapp' style="font-size: 24px; margin-right: 10px;"></i>
+                    <span>0895-7038-42132</span>
+                </a>
+            </p>
+        </div>
+    </div>
+
+    <div id="infoDiscord" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
+        <div class="modal-content" style="background-color: rgba(51, 51, 51, 0.7); margin: 15% auto; padding: 20px; border-radius: 5px; width: 80%; max-width: 500px;">
+            <span class="close" style="float: right; font-size: 24px; cursor: pointer; margin-bottom: 15px;">&times;</span>
+            <h2 style="margin-bottom: 20px;">Buy Here!!</h2>
+            <p style="display: flex; align-items: center;">
+                <a href="https://discord.gg/gti" target="_blank" style="text-decoration: none; display: flex; align-items: center; color: #7289DA;">
+                    <i class='bx bxl-discord' style="font-size: 24px; margin-right: 10px;"></i>
+                    <span>Join Our Discord Server</span>
+                </a>
+            </p>
+        </div>
+    </div>    
+    
+    <!-- Info Modals -->
+    <div class="modal fade" id="infoModal1" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoModalLabel1">Stock Description</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Feeling high? Want to feel even higher? Buy this & get guaranteed Legendary or Mythic account! - they are super rich, legendary can have up to one bgl & Mythic can have above bgl to infinity!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="infoModal2" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel2" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoModalLabel2">Stock Description</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Enjoy good quality accounts. This stock is better than some others, most accounts in this stock belong to farmers!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="infoModal3" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel3" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="infoModalLabel3">Stock Description  </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Ancient accounts are bad quality, but best choice for botters & autofarmers, we recomment changing account name once you buy it.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="balanceModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5); z-index: 9999;">
+        <div class="modal-content" style="background-color: rgba(51, 51, 51, 0.7); margin: 15% auto; padding: 20px; border-radius: 5px; width: 80%; max-width: 500px;">
+            <span class="close" style="float: right; font-size: 24px; cursor: pointer; margin-bottom: 15px;" onclick="toggleInfo('balanceModal')">&times;</span>
+            <h2 style="margin-bottom: 20px; border-bottom: 1px black solid;">Your Balance</h2>
+            <br>
+            <p>Your current balance is: <img src="{{ url_for('static', filename='needs/DiamondLock.webp') }}" alt="" style="width: 20px; height:20px;"> <strong>{{ balance }}</strong></p>
+            <br>
+            <p>Deposit Here : <p style="display: flex; align-items: center; margin-bottom: 15px;">
+                <a href="https://www.instagram.com/Almfueb" target="_blank" style="text-decoration: none; display: flex; align-items: center; color: #e4405f;">
+                    <i class='bx bxl-instagram' style="font-size: 24px; margin-right: 10px;"></i>
+                    <span>Almfueb</span>
+                </a>
+            </p>
+            <p style="display: flex; align-items: center;">
+                <a href="https://wa.me/0895703842132" target="_blank" style="text-decoration: none; display: flex; align-items: center; color: #25D366;">
+                    <i class='bx bxl-whatsapp' style="font-size: 24px; margin-right: 10px;"></i>
+                    <span>0895-7038-42132</span>
+                </a>
+            </p></p>
+        </div>
+    </div>    
+{% endblock %}

@@ -1,61 +1,87 @@
-{% extends 'base.html' %}
+{% extends 'includes/base.html' %}
 {% block content %}
-    {% include 'navbar.html' %}
-    <!-- Login Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+    {% include 'includes/navbar.html' %}
+    {% include 'includes/modal.html' %}
+        <div class="row mt-5 text-center justify-content-between">
+            <div class="text-center mb-4">
+                <h1 class="section-title">
+                    Grow🌳Store
+                </h1>
+                <div class="description-container mx-auto">
+                    <p class="section-description">
+                        Explore our premium accounts with various rarity and benefits. Each box contains a unique set of accounts, ranging from Mythic to Common. Click on the buy button to purchase or the info button to learn more about each account type.
+                    </p>
+                </div>
+            </div>
+            <!-- Item 1 -->
+            <div class="col-md-4 d-flex justify-content-center">
+                <div class="box" style="background-color: rgba(51, 51, 51, 0.7); padding: 10px; border-radius: 4px; max-width: 300px; border: 1px solid gray; position: relative; margin-bottom: 30px;">
+                    <button class="info-button" onclick="toggleInfo('infoContent1')">❓</button>
+                    <div class="info-content" id="infoContent1">
+                        <!-- Info content here -->
+                    </div>
+                    <img src="{{ url_for('static', filename='chest/mdma_chest.webp') }}" alt="Item 1" class="img-fluid" style="border-bottom: 1px solid whitesmoke;">
+                    <h1 style="font-size: 24.5px; color: rgba(255, 228, 73, 0.8);">
+                        🍀<span style="background: linear-gradient(to right, rgba(255, 228, 73, 0.8), rgba(182, 255, 73, 0.8)); -webkit-background-clip: text; color: transparent;">MDMA Accounts</span>🍀
+                    </h1>                
+                    <p style="color: rgba(251, 255, 17, 0.8); font-size: 11px; text-align: left;">* Guaranteed Legendary or Mythic - Richest accounts in the market!</p>
+                    <p style="color: rgba(0, 255, 234, 0.8); font-size: 11px; text-align: left;">* Mythic Account</p>
+                    <p style="color: rgba(255, 0, 0, 0.8); font-size: 11px; text-align: left;">* Legendary Accounts</p>
+                    <button class="btn btn-primary buy-now-button mt-2" onclick="toggleInfo('signupModal')">
+                        <img src="{{ url_for('static', filename='Needs/DiamondLock.webp') }}" alt="Buy Icon" style="width: 30px; height: 30px; margin-right: 5px;">
+                        <span style="color: rgba(255, 255, 255, 0.9); font-size: 18px;">50</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form action="/login" method="post">
-                        <div class="form-group">
-                            <label for="usernameModal">Username</label>
-                            <input type="text" class="form-control" id="usernameModal" name="username" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="passwordModal">Password</label>
-                            <input type="password" class="form-control" id="passwordModal" name="password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </form>
+            </div>
+            <!-- Item 2 -->
+            <div class="col-md-4 d-flex justify-content-center">
+                <div class="box" style="background-color: rgba(51, 51, 51, 0.7); padding: 10px; border-radius: 4px; max-width: 300px; border: 1px solid gray; position: relative; margin-bottom: 30px;">
+                    <button class="info-button" onclick="toggleInfo('infoContent2')">❓</button>
+                    <div class="info-content" id="infoContent2">
+                        <!-- Info content here -->
+                    </div>
+                    <img src="{{ url_for('static', filename='chest/elite_chest.webp') }}" alt="Item 2" class="img-fluid" style="border-bottom: 1px solid whitesmoke;">
+                    <h1 style="font-size: 24.5px; color: rgba(255, 228, 73, 0.8);">
+                        🌊<span style="background: linear-gradient(to right, rgba(0, 255, 149, 0.8), rgba(0, 238, 255, 0.8)); -webkit-background-clip: text; color: transparent;">Elite Accounts</span>🌊
+                    </h1>                
+                    <p style="color: rgba(251, 255, 17, 0.8); font-size: 11px; text-align: left;">* Best accounts for looting, try your luck and gacha! ⭐</p>
+                    <p style="color: rgba(0, 255, 234, 0.8); font-size: 11px; text-align: left;">* Mythic Account</p>
+                    <p style="color: rgba(255, 0, 0, 0.8); font-size: 11px; text-align: left;">* Legendary Accounts</p>
+                    <p style="color: rgba(255, 17, 235, 0.8); font-size: 11px; text-align: left;">* Epic Account</p>
+                    <p style="color: rgba(251, 255, 0, 0.8); font-size: 11px; text-align: left;">* Rare Accounts</p>
+                    <p style="color: rgba(137, 205, 223, 0.8); font-size: 11px; text-align: left;">* Uncommon Account</p>
+                    <p style="color: rgba(102, 223, 122, 0.8); font-size: 11px; text-align: left;">* Common Accounts</p>
+                    <button class="btn btn-primary buy-now-button mt-2" onclick="toggleInfo('signupModal')">
+                        <img src="{{ url_for('static', filename='Needs/DiamondLock.webp') }}" alt="Buy Icon" style="width: 30px; height: 30px; margin-right: 5px;">
+                        <span style="color: rgba(255, 255, 255, 0.9); font-size: 18px;">7.5</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Item 3 -->
+            <div class="col-md-4 d-flex justify-content-center">
+                <div class="box" style="background-color: rgba(51, 51, 51, 0.7); padding: 10px; border-radius: 4px; max-width: 300px; border: 1px solid gray; position: relative; margin-bottom: 30px;">
+                    <button class="info-button" onclick="toggleInfo('infoContent3')">❓</button>
+                    <div class="info-content" id="infoContent3">
+                        <!-- Info content here -->
+                    </div>
+                    <img src="{{ url_for('static', filename='chest/ancientChest.webp') }}" alt="Item 3" class="img-fluid" style="border-bottom: 1px solid whitesmoke;">
+                    <h1 style="font-size: 24.5px; color: rgba(255, 228, 73, 0.8);">
+                        🔮<span style="background: linear-gradient(to right, rgba(155, 0, 202, 0.8), rgba(225, 0, 255, 0.8)); -webkit-background-clip: text; color: transparent;">Ancient Accounts</span>🔮
+                    </h1>                
+                    <p style="color: rgba(251, 255, 17, 0.8); font-size: 11px; text-align: left;">* Best accounts for looting, try your luck and gacha! All accounts don't have AAP!</p>
+                    <p style="color: rgba(0, 255, 234, 0.8); font-size: 11px; text-align: left;">* Mythic Account</p>
+                    <p style="color: rgba(255, 0, 0, 0.8); font-size: 11px; text-align: left;">* Legendary Accounts</p>
+                    <p style="color: rgba(255, 17, 235, 0.8); font-size: 11px; text-align: left;">* Epic Account</p>
+                    <p style="color: rgba(251, 255, 0, 0.8); font-size: 11px; text-align: left;">* Rare Accounts</p>
+                    <p style="color: rgba(137, 205, 223, 0.8); font-size: 11px; text-align: left;">* Uncommon Account</p>
+                    <p style="color: rgba(102, 223, 122, 0.8); font-size: 11px; text-align: left;">* Common Accounts</p>
+                    <button class="btn btn-primary buy-now-button mt-2" onclick="toggleInfo('signupModal')">
+                        <img src="{{ url_for('static', filename='Needs/DiamondLock.webp') }}" alt="Buy Icon" style="width: 30px; height: 30px; margin-right: 5px;">
+                        <span style="color: rgba(255, 255, 255, 0.9); font-size: 18px;">5</span>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Sign Up Modal -->
-    <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="signupModalLabel">Sign Up</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="/signup" method="post">
-                        <div class="form-group">
-                            <label for="signupUsernameModal">Username</label>
-                            <input type="text" class="form-control" id="signupUsernameModal" name="username" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="signupEmailModal">Email</label>
-                            <input type="email" class="form-control" id="signupEmailModal" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="signupPasswordModal">Password</label>
-                            <input type="password" class="form-control" id="signupPasswordModal" name="password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Sign Up</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-{% endblock %}
+{% endblock content %}

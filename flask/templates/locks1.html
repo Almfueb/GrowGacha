@@ -1,0 +1,45 @@
+{% extends 'includes/base.html' %}
+
+{% block content %}
+    {% include 'includes/navbar.html' %}
+    {% include 'includes/modal.html' %}
+    <div class="container mt-4">
+        <div class="text-center mb-4">
+            <h1 class="section-title">
+                Grow🌳Store
+            </h1>
+            <div class="description-container mx-auto">
+                <p class="section-description">
+                Here you will find the cheapest price of Diamond locks and Blue Gem Locks
+                </p>
+            </div>
+        </div>
+        <div class="row mt-5 d-flex justify-content-center">
+            <!-- Box 1 -->
+            <a href="#" class="box-wrapper" style="text-decoration: none; color: inherit; flex: 0 0 auto; margin: 0 15px;" onclick="showModal()">
+                <div class="box" style="background-color: rgba(51, 51, 51, 0.7); padding: 10px; border-radius: 4px; border: 1px solid gray; width: 250px; height: auto;">
+                    <h1 class="box-title" style="font-size: 20px; color: white; margin-bottom: 10px;">Diamond Locks</h1>
+                    <br>
+                    <img src="{{ url_for('static', filename='needs/diamondLock.webp') }}" alt="Item 1" style="width: 80%; max-width: 100%; height: auto; margin-bottom: 10px;">
+                    <br>
+                    <div style="display: flex; align-items: center;">
+                        <p class="box-description" style="color: white; font-size: 20px; margin: 0;">Rp. 3900</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Box 2 -->
+            <a href="#" class="box-wrapper" style="text-decoration: none; color: inherit; flex: 0 0 auto; margin: 0 15px;" onclick="showModal()">
+                <div class="box" style="background-color: rgba(51, 51, 51, 0.7); padding: 10px; border-radius: 4px; border: 1px solid gray; width: 250px; height: auto;">
+                    <h1 class="box-title" style="font-size: 20px; color: white; margin-bottom: 10px;">Blue Gem Lock</h1>
+                    <br>
+                    <img src="{{ url_for('static', filename='needs/bgl.png') }}" alt="Item 2" style="width: 80%; max-width: 100%; height: auto; margin-bottom: 10px;">
+                    <br>
+                    <div style="display: flex; align-items: center;">
+                        <p class="box-description" style="color: white; font-size: 20px; margin: 0;">Rp. 385,000</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+{% endblock %}

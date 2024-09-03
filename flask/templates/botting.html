@@ -1,0 +1,42 @@
+{% extends 'includes/base.html' %}
+
+{% block content %}
+    {% include 'includes/login_navbar.html' %}
+    {% include 'includes/modal.html' %}
+    <div class="container mt-4">
+        <div class="text-center mb-4">
+            <h1 class="section-title">
+                Grow🌳Store
+            </h1>
+            <div class="description-container mx-auto">
+                <p class="section-description">
+                Here you will find the cheapest price for script and anything u need for botting.
+                </p>
+            </div>
+        </div>
+        <div class="row mt-5 d-flex justify-content-center">
+            <div class="box" style="background-color: rgba(51, 51, 51, 0.7); padding: 10px; border-radius: 4px; border: 1px solid gray; width: 250px; height: auto; margin-right: 10px;">
+                <h1 class="box-title" style="font-size: 20px; color: white; margin-bottom: 10px;">Steam Account</h1>
+                <br>
+                <img src="{{ url_for('static', filename='needs/steam.jpeg') }}" alt="Item 1" style="width: 80%; max-width: 100%; height: auto; margin-bottom: 10px;">
+                <br>
+                <br>
+                <button class="btn btn-primary buy-now-button mt-2" onclick="toggleInfo('infoDiscord')">
+                    <img src="{{ url_for('static', filename='Needs/worldlocks.png') }}" alt="Buy Icon" class="buy-icon">
+                    <span style="color: rgba(255, 255, 255, 0.9); font-size: 18px;">10</span>
+                </button>
+            </div>
+
+            <div class="box" style="background-color: rgba(51, 51, 51, 0.7); padding: 10px; border-radius: 4px; border: 1px solid gray; width: 250px; height: auto; margin-left: 10px;">
+                <h1 class="box-title" style="font-size: 20px; color: white; margin-bottom: 10px;">Socks5</h1>
+                <br>
+                <img src="{{ url_for('static', filename='needs/socks5.png') }}" alt="Item 2" style="width: 80%; max-width: 100%; height: auto; margin-bottom: 10px;">
+                <br>
+                <button class="btn btn-primary buy-now-button mt-2" onclick="toggleInfo('infoDiscord')">
+                    <img src="{{ url_for('static', filename='Needs/worldlocks.png') }}" alt="Buy Icon" class="buy-icon" onclick="toggleInfo('infoDiscord')">
+                    <span style="color: rgba(255, 255, 255, 0.9); font-size: 18px;">900</span>
+                </button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

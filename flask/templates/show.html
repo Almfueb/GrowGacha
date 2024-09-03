@@ -1,0 +1,21 @@
+{% extends 'includes/base.html' %}
+{% block content %}
+    <div class="container mt-5">
+        <h1>Account Purchase Summary</h1>
+
+        {% if account %}
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Purchase Successful!</h4>
+                <p><strong>Username:</strong> {{ account.username }}</p>
+                <p><strong>Password:</strong> {{ account.password }}</p>
+                <p><strong>Rarity:</strong>{{ account.rarity }}</p>
+            </div>
+        {% else %}
+            <div class="alert alert-info" role="alert">
+                <p>No account information available.</p>
+            </div>
+        {% endif %}
+
+        <a href="{{ url_for('accounts') }}" class="btn btn-primary">Return to Home</a>
+    </div>
+{% endblock %}

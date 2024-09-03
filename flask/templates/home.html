@@ -1,38 +1,100 @@
-{% extends 'base.html' %}
+{% extends 'includes/base.html' %}
 {% block content %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#" style="font-size:30px;">Grow🌳Store</a> 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto" style="gap:50px; margin-left: 100px;">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Accounts <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Cases</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Diamond Locks</a>
-            </li>
-        </ul>
-        <ul class="navbar-nav ml-auto" style="align-items: center;">
-            <li class="nav-item nav-item-box">
-                <a class="nav-link" href="#">${{ balance }}</a>
-            </li>
-            <li class="nav-item dropdown nav-item-box">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <!-- Display Profile Picture and Username -->
-                    <img src="{{ url_for('uploaded_file', filename=profile_picture) }}" alt="Profile Picture" class="profile-pic" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 10px;">
-                    {{ user }}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Account Settings</a>
-                    <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
+    {% include 'includes/login_navbar.html' %}
+    {% include 'includes/modal.html' %}
+    
+    <!-- Section with Title and Description -->
+    <div class="container mt-5">
+        <div class="text-center mb-4">
+            <h1 class="section-title">
+                Grow🌳Store
+            </h1>
+            <div class="description-container mx-auto">
+                <p class="section-description">
+                    Explore our premium accounts with various rarity and benefits. Each box contains a unique set of accounts, ranging from Mythic to Common. Click on the buy button to purchase or the info button to learn more about each account type.
+                </p>
+            </div>
+        </div>
+
+        <!-- Row with Boxes -->
+        <div class="row mt-5 text-center justify-content-between">
+            <!-- Item 1 -->
+            <div class="col-md-4 d-flex justify-content-center">
+                <div class="box" style="background-color: rgba(51, 51, 51, 0.7); padding: 10px; border-radius: 4px; max-width: 300px; border: 1px solid gray; position: relative; margin-bottom: 30px;">
+                    <button class="info-button" onclick="toggleInfo('infoModal1')">❓</button>
+                    <div class="info-content" id="infoContent1" style="display: none;">
+                        <!-- Info content here -->
+                    </div>
+                    <img src="{{ url_for('static', filename='chest/mdma_chest.webp') }}" alt="Item 1" class="img-fluid" style="border-bottom: 1px solid whitesmoke; max-width: 100%; height: auto;">
+                    <h1 style="font-size: 24.5px; color: rgba(255, 228, 73, 0.8);">
+                        🍀<span style="background: linear-gradient(to right, rgba(255, 228, 73, 0.8), rgba(182, 255, 73, 0.8)); -webkit-background-clip: text; color: transparent;">MDMA Accounts</span>🍀
+                    </h1>                
+                    <p style="color: rgba(251, 255, 17, 0.8); font-size: 11px; text-align: left;">* Guaranteed Legendary or Mythic - Richest accounts in the market!</p>
+                    <p style="color: rgba(0, 255, 234, 0.8); font-size: 11px; text-align: left;">* Mythic Account</p>
+                    <p style="color: rgba(255, 0, 0, 0.8); font-size: 11px; text-align: left;">* Legendary Accounts</p>
+                    <div style="position: absolute; bottom: 10px; left: 10px; color: {% if mdma_stock > 0 %} green {% else %} rgba(255, 0, 0, 0.5) {% endif %};">
+                        Stock: {{ mdma_stock }}
+                    </div>
+                    <button class="btn btn-primary buy-now-button mt-2" {% if mdma_stock <= 0 %} disabled style="background-color: rgba(255, 0, 0, 0.5);" {% endif %} onclick="toggleInfo('buyNowModal')">
+                        <img src="{{ url_for('static', filename='Needs/DiamondLock.webp') }}" alt="Buy Icon" class="buy-icon">
+                        <span style="color: rgba(255, 255, 255, 0.9); font-size: 18px;">50</span>
+                    </button>
                 </div>
-            </li>
-        </ul>
+            </div>
+            <!-- Item 2 -->
+            <div class="col-md-4 d-flex justify-content-center">
+                <div class="box" style="background-color: rgba(51, 51, 51, 0.7); padding: 10px; border-radius: 4px; max-width: 300px; border: 1px solid gray; position: relative; margin-bottom: 30px;">
+                    <button class="info-button" onclick="toggleInfo('infoModal2')">❓</button>
+                    <div class="info-content" id="infoContent2" style="display: none;">
+                        <!-- Info content here -->
+                    </div>
+                    <img src="{{ url_for('static', filename='chest/elite_chest.webp') }}" alt="Item 2" class="img-fluid" style="border-bottom: 1px solid whitesmoke; max-width: 100%; height: auto;">
+                    <h1 style="font-size: 24.5px; color: rgba(255, 228, 73, 0.8);">
+                        🌊<span style="background: linear-gradient(to right, rgba(0, 255, 149, 0.8), rgba(0, 238, 255, 0.8)); -webkit-background-clip: text; color: transparent;">Elite Accounts</span>🌊
+                    </h1>                
+                    <p style="color: rgba(251, 255, 17, 0.8); font-size: 11px; text-align: left;">* Best accounts for looting, try your luck and gacha! ⭐</p>
+                    <p style="color: rgba(0, 255, 234, 0.8); font-size: 11px; text-align: left;">* Mythic Account</p>
+                    <p style="color: rgba(255, 0, 0, 0.8); font-size: 11px; text-align: left;">* Legendary Accounts</p>
+                    <p style="color: rgba(255, 17, 235, 0.8); font-size: 11px; text-align: left;">* Epic Account</p>
+                    <p style="color: rgba(251, 255, 0, 0.8); font-size: 11px; text-align: left;">* Rare Accounts</p>
+                    <p style="color: rgba(137, 205, 223, 0.8); font-size: 11px; text-align: left;">* Uncommon Account</p>
+                    <p style="color: rgba(102, 223, 122, 0.8); font-size: 11px; text-align: left;">* Common Accounts</p>
+                    <div style="position: absolute; bottom: 10px; left: 10px; color: {% if elite_stock > 0 %} green {% else %} rgba(255, 0, 0, 0.5) {% endif %};">
+                        Stock: {{ elite_stock }}
+                    </div>
+                    <button class="btn btn-primary buy-now-button mt-2" {% if elite_stock <= 0 %} disabled style="background-color: rgba(255, 0, 0, 0.5);" {% endif %} onclick="toggleInfo('buyNowModal1')">
+                        <img src="{{ url_for('static', filename='Needs/DiamondLock.webp') }}" alt="Buy Icon" class="buy-icon">
+                        <span style="color: rgba(255, 255, 255, 0.9); font-size: 18px;">7.5</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Item 3 -->
+            <div class="col-md-4 d-flex justify-content-center">
+                <div class="box" style="background-color: rgba(51, 51, 51, 0.7); padding: 10px; border-radius: 4px; max-width: 300px; border: 1px solid gray; position: relative; margin-bottom: 30px;">
+                    <button class="info-button" onclick="toggleInfo('infoModal3')">❓</button>
+                    <div class="info-content" id="infoContent3" style="display: none;">
+                        <!-- Info content here -->
+                    </div>
+                    <img src="{{ url_for('static', filename='chest/ancientChest.webp') }}" alt="Item 3" class="img-fluid" style="border-bottom: 1px solid whitesmoke; max-width: 100%; height: auto;">
+                    <h1 style="font-size: 24.5px; color: rgba(255, 228, 73, 0.8);">
+                        🔮<span style="background: linear-gradient(to right, rgba(155, 0, 202, 0.8), rgba(225, 0, 255, 0.8)); -webkit-background-clip: text; color: transparent;">Ancient Accounts</span>🔮
+                    </h1>                
+                    <p style="color: rgba(251, 255, 17, 0.8); font-size: 11px; text-align: left;">* Best accounts for looting, try your luck and gacha! All accounts don't have AAP!</p>
+                    <p style="color: rgba(0, 255, 234, 0.8); font-size: 11px; text-align: left;">* Mythic Account</p>
+                    <p style="color: rgba(255, 0, 0, 0.8); font-size: 11px; text-align: left;">* Legendary Accounts</p>
+                    <p style="color: rgba(255, 17, 235, 0.8); font-size: 11px; text-align: left;">* Epic Account</p>
+                    <p style="color: rgba(251, 255, 0, 0.8); font-size: 11px; text-align: left;">* Rare Accounts</p>
+                    <p style="color: rgba(137, 205, 223, 0.8); font-size: 11px; text-align: left;">* Uncommon Account</p>
+                    <p style="color: rgba(102, 223, 122, 0.8); font-size: 11px; text-align: left;">* Common Accounts</p>
+                    <div style="position: absolute; bottom: 10px; left: 10px; color: {% if ancient_stock > 0 %} green {% else %} rgba(255, 0, 0, 0.5) {% endif %};">
+                        Stock: {{ ancient_stock }}
+                    </div>
+                    <button class="btn btn-primary buy-now-button mt-2" {% if ancient_stock <= 0 %} disabled style="background-color: rgba(255, 0, 0, 0.5);" {% endif %} onclick="toggleInfo('buyNowModal2')">
+                        <img src="{{ url_for('static', filename='Needs/DiamondLock.webp') }}" alt="Buy Icon" class="buy-icon">
+                        <span style="color: rgba(255, 255, 255, 0.9); font-size: 18px;">5</span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-</nav>
 {% endblock %}

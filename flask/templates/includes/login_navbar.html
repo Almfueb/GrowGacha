@@ -1,0 +1,47 @@
+{% extends 'includes/base.html' %}
+
+{% block content %}
+<nav class="navbar navbar-expand-lg navbar-dark" style="height:50px ;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); background-color: rgb(26, 26, 26);">
+    <a class="navbar-brand" href="#" style="font-size:25px;">Grow🌳Store</a> 
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto" style="gap:40px; margin-left: 80px;">
+            <li class="nav-item" style="position: relative;">
+                <a class="nav-link" href="accounts" id="accounts" style="color: #ccc;">ACCOUNTS</a>
+                <div class="underline"></div>
+            </li>
+            <li class="nav-item" style="position: relative;">
+                <a class="nav-link" href="locks" id="locks" style="color: #ccc;">LOCKS</a>
+                <div class="underline"></div>
+            </li>
+            <li class="nav-item" style="position: relative;">
+                <a class="nav-link" href="botting" id="botting" style="color: #ccc;">BOTTING</a>
+                <div class="underline"></div>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto" style="align-items: center;">
+            <li class="nav-item nav-item-box" style="display: flex; flex-direction: row; border: 1px rgb(139, 139, 139) solid; border-radius: 20px; padding: 4px; width: 100px; height: 45px; justify-content: center; cursor: pointer;" onclick="toggleInfo('balanceModal')">
+                <img src="{{ url_for('static', filename='needs/DiamondLock.webp') }}" alt="" style="width: 20px; height:20px; margin-top: 10px;">
+                <a class="nav-link" href="#" style="color: rgba(255, 255, 255, 0.8);">{{ balance }}</a>
+            </li>            
+            <li class="nav-item dropdown nav-item-box">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border: 1px solid rgb(139, 139, 139); border-radius: 20px; height: 45px; margin-left: 10px; display: flex; align-items: center; padding: 0 10px;">
+                    {% if profile_picture %}
+                        <img src="{{ url_for('uploaded_file', filename=profile_picture) }}" alt="Profile Picture" class="rounded-circle profile-pic" style="width: 35px; height: 35px; border-radius: 50%; border: 1px solid white; padding: 3px; box-sizing: border-box; margin-right: 8px;">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='profpic/default.jpg') }}" alt="Default Profile Picture" class="rounded-circle profile-pic" style="width: 35px; height: 35px; border-radius: 50%; border: 3px solid white; padding: 3px; box-sizing: border-box; margin-right: 8px;">
+                    {% endif %}
+                    {{ user }}
+                </a>                
+                <div class="dropdown-menu dropdown-menu-right transparent-dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{{ url_for('edit_profile') }}" style="color:white;">Account Settings</a>
+                    <a class="dropdown-item" href="{{ url_for('logout') }} " style="color:white;">Logout</a>
+                </div>
+                
+            </li>
+        </ul>
+    </div>
+</nav>
+{% endblock %}
